@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+	<nodes>
+		<spawn id="1" x="-10.0" y="0.0" width="10.0" height="2.0" />
+		<spawn id="2" x="23.0" y="0.0" width="10.0" height="2.0" />
+		<spawn id="3" x="-10.0" y="6.0" width="10.0" height="2.0" />
+		<spawn id="4" x="23.0" y="6.0" width="10.0" height="2.0" />
+		<crosswalk id="5">
+			<line sx="10.0" sy="2.0" ex="10.0" ey="6.0" />
+			<line sx="13.0" sy="2.0" ex="13.0" ey="6.0" />
+		</crosswalk>
+		<sidewalk id="6">
+			<line sx="0.0" sy="0.0" ex="23.0" ey="0.0" />
+			<line sx="0.0" sy="2.0" ex="23.0" ey="2.0" />
+		</sidewalk>
+		<sidewalk id="7">
+			<line sx="0.0" sy="6.0" ex="23.0" ey="6.0" />
+			<line sx="0.0" sy="8.0" ex="23.0" ey="8.0" />
+		</sidewalk>
+	</nodes>
+	<edges>
+		<edge n1="1" n2="6" />
+		<edge n1="2" n2="6" />
+		<edge n1="3" n2="7" />
+		<edge n1="4" n2="7" />
+		<edge n1="5" n2="6" />
+		<edge n1="5" n2="7" />
+	</edges>
+</map>
