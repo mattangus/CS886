@@ -15,14 +15,14 @@ END//
 CREATE FUNCTION add_profile(
 	IN i_assignment varchar(255),
 	IN i_num_strategies integer) RETURNS integer
-DECLARE
-	l_id integer
 BEGIN
+	DECLARE @l_id integer;
+	
 	insert into profiles (assignment, num_strategies)
 	VALUES (i_assignment, i_num_strategies);
 	
-	select LAST_INSERT_ID() into l_id;
-	return l_id;
+	select LAST_INSERT_ID() into @l_id;
+	return @l_id;
 END//
 
 CREATE PROCEDURE add_o_agent_profile(
@@ -41,8 +41,6 @@ CREATE PROCEDURE add_o_agent_profile(
 	IN i_crosswalkPullStrengthCoefB double,
 	IN i_crosswalkPushStrengthCoefA double,
 	IN i_crosswalkPushStrengthCoefB double)
-DECLARE
-	l_id integer
 BEGIN
 	insert into o_agents_profile (
 		o_agents_profile_id,
@@ -93,9 +91,9 @@ CREATE FUNCTION add_strategy(
 	IN i_crosswalkPullStrengthCoefB double,
 	IN i_crosswalkPushStrengthCoefA double,
 	IN i_crosswalkPushStrengthCoefB double) RETURNS integer
-DECLARE
-	l_id integer
 BEGIN
+	DECLARE @l_id integer;
+	
 	insert into strategies (
 		evasiveSpeedChange,
 		evasiveAngleChange,
@@ -127,6 +125,6 @@ BEGIN
 		i_crosswalkPushStrengthCoefA,
 		i_crosswalkPushStrengthCoefB);
 	
-	select LAST_INSERT_ID() into l_id;
-	return l_id;
+	select LAST_INSERT_ID() into @l_id;
+	return @l_id;
 END//
