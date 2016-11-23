@@ -1,6 +1,11 @@
+DROP PROCEDURE IF EXISTS add_observation;
+DROP PROCEDURE IF EXISTS add_profile;
+DROP PROCEDURE IF EXISTS add_o_agent_profile;
+DROP PROCEDURE IF EXISTS add_strategy;
+
 delimiter //
 
-CREATE OR REPLACE PROCEDURE add_observation(
+CREATE PROCEDURE add_observation(
 	IN i_profile integer,
 	IN i_strategy integer,
 	IN i_o_agents_profile integer,
@@ -25,7 +30,7 @@ BEGIN
 	return l_id;
 END//
 
-CREATE OR REPLACE PROCEDURE add_o_agent_profile(
+CREATE PROCEDURE add_o_agent_profile(
 	IN i_o_agents_profile_id integer,
 	IN i_evasiveSpeedChange double,
 	IN i_evasiveAngleChange double,
