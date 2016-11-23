@@ -1,6 +1,6 @@
 delimiter //
 
-CREATE PROCEDURE add_observation(
+CREATE OR REPLACE PROCEDURE add_observation(
 	IN i_profile integer,
 	IN i_strategy integer,
 	IN i_o_agents_profile integer,
@@ -16,16 +16,16 @@ CREATE FUNCTION add_profile(
 	IN i_assignment varchar(255),
 	IN i_num_strategies integer) RETURNS integer
 BEGIN
-	DECLARE @l_id integer;
+	DECLARE l_id integer;
 	
 	insert into profiles (assignment, num_strategies)
 	VALUES (i_assignment, i_num_strategies);
 	
-	select LAST_INSERT_ID() into @l_id;
-	return @l_id;
+	select LAST_INSERT_ID() into l_id;
+	return l_id;
 END//
 
-CREATE PROCEDURE add_o_agent_profile(
+CREATE OR REPLACE PROCEDURE add_o_agent_profile(
 	IN i_o_agents_profile_id integer,
 	IN i_evasiveSpeedChange double,
 	IN i_evasiveAngleChange double,
@@ -92,7 +92,7 @@ CREATE FUNCTION add_strategy(
 	IN i_crosswalkPushStrengthCoefA double,
 	IN i_crosswalkPushStrengthCoefB double) RETURNS integer
 BEGIN
-	DECLARE @l_id integer;
+	DECLARE l_id integer;
 	
 	insert into strategies (
 		evasiveSpeedChange,
@@ -125,8 +125,8 @@ BEGIN
 		i_crosswalkPushStrengthCoefA,
 		i_crosswalkPushStrengthCoefB);
 	
-	select LAST_INSERT_ID() into @l_id;
-	return @l_id;
+	select LAST_INSERT_ID() into l_id;
+	return l_id;
 END//
 
 delimiter ;
