@@ -5,7 +5,7 @@ DROP PROCEDURE IF EXISTS add_strategy;
 
 delimiter //
 
-CREATE PROCEDURE add_observation(
+CREATE PROCEDURE gamedata.add_observation(
 	IN i_profile integer,
 	IN i_strategy integer,
 	IN i_o_agents_profile integer,
@@ -17,11 +17,11 @@ BEGIN
 
 END//
 
-CREATE FUNCTION add_profile(
-	IN i_assignment varchar(255),
-	IN i_num_strategies integer) RETURNS integer
+CREATE FUNCTION gamedata.add_profile(
+	i_assignment varchar(255),
+	i_num_strategies integer) RETURNS integer
 BEGIN
-	DECLARE l_id integer;
+	DECLARE l_id int;
 	
 	insert into profiles (assignment, num_strategies)
 	VALUES (i_assignment, i_num_strategies);
@@ -30,7 +30,7 @@ BEGIN
 	return l_id;
 END//
 
-CREATE PROCEDURE add_o_agent_profile(
+CREATE PROCEDURE gamedata.add_o_agent_profile(
 	IN i_o_agents_profile_id integer,
 	IN i_evasiveSpeedChange double,
 	IN i_evasiveAngleChange double,
@@ -81,21 +81,21 @@ BEGIN
 		i_crosswalkPushStrengthCoefB);
 END//
 
-CREATE FUNCTION add_strategy(
-	IN i_evasiveSpeedChange double,
-	IN i_evasiveAngleChange double,
-	IN i_evasiveRelativeTimeThresh double,
-	IN i_desiredSpeed double,
-	IN i_accelerationTime double,
-	IN i_privateSphere double,
-	IN i_visualRange double,
-	IN i_fieldOfView double,
-	IN i_repulsiveStrengthCoefA double,
-	IN i_repulsiveStrengthCoefB double,
-	IN i_crosswalkPullStrengthCoefA double,
-	IN i_crosswalkPullStrengthCoefB double,
-	IN i_crosswalkPushStrengthCoefA double,
-	IN i_crosswalkPushStrengthCoefB double) RETURNS integer
+CREATE FUNCTION gamedata.add_strategy(
+	i_evasiveSpeedChange double,
+	i_evasiveAngleChange double,
+	i_evasiveRelativeTimeThresh double,
+	i_desiredSpeed double,
+	i_accelerationTime double,
+	i_privateSphere double,
+	i_visualRange double,
+	i_fieldOfView double,
+	i_repulsiveStrengthCoefA double,
+	i_repulsiveStrengthCoefB double,
+	i_crosswalkPullStrengthCoefA double,
+	i_crosswalkPullStrengthCoefB double,
+	i_crosswalkPushStrengthCoefA double,
+	i_crosswalkPushStrengthCoefB double) RETURNS integer
 BEGIN
 	DECLARE l_id integer;
 	
