@@ -128,3 +128,5 @@ BEGIN
 	select LAST_INSERT_ID() into @l_id;
 	return @l_id;
 END//
+
+delimiter ;
