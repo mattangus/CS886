@@ -1,0 +1,29 @@
+import java.util.ArrayList;
+
+public class Trajectory {
+	ArrayList<TimePoint2d> points;
+	
+	double dist(Trajectory other)
+	{
+		int n = points.size();
+		int m = other.points.size();
+		
+		double [][] DTW = new double[n][m];
+		for(int i = 0; i < n; i++)
+			DTW[i][0] = Double.MAX_VALUE;
+		for(int i = 0; i < m; i++)
+			DTW[0][i] = Double.MAX_VALUE;
+		
+		DTW[0][0] = 0;
+		
+		for(int i = 1; i < n; i++)
+		{
+			for(int j = 1; j < m; j++)
+			{
+				double cost = points.get(i).dist(other.points.get(i));
+				DTW[i][j] = cost + Math.min(DTW[i-1][j], Math.min(DTW[i][j-1], DTW[i-1][j-1]));
+			}
+		}
+		return DTW[n][m];
+	}
+}

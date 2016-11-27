@@ -10,12 +10,14 @@ import java.sql.ResultSet;
 public class Driver {
 
 	public static void main(String[] args) throws SQLException, PropertyVetoException {
-		Connection[] cons = new Connection[5];
+		/*Connection[] cons = new Connection[5];
 		for(int i = 0; i < cons.length; i++)
 		{
 			cons[i] = Database.getInstance().getConnection();
 		}
 		
-		Database.close();
+		Database.close();*/
+		MultiSim sim = new MultiSim();
+		sim.run();
 	}
 }
