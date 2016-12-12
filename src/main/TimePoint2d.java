@@ -1,3 +1,4 @@
+package main;
 
 public class TimePoint2d {
 	double t;

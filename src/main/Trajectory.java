@@ -1,7 +1,18 @@
+package main;
 import java.util.ArrayList;
 
 public class Trajectory {
 	ArrayList<TimePoint2d> points;
+	
+	public Trajectory(ArrayList<TimePoint2d> points)
+	{
+		this.points = points;
+	}
+	
+	public void add(TimePoint2d p)
+	{
+		points.add(p);
+	}
 	
 	double dist(Trajectory other)
 	{
