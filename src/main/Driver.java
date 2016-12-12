@@ -18,7 +18,12 @@ public class Driver {
 		}
 		
 		Database.close();*/
+		
+		int numCores = Runtime.getRuntime().availableProcessors();
+		if(args.length != 0)
+			numCores = Integer.parseInt(args[0]);
+		
 		MultiSim sim = new MultiSim();
-		sim.run();
+		sim.run(numCores);
 	}
 }

@@ -17,9 +17,8 @@ public class MultiSim {
 		RandomHelper.nextInt(10);//prevent invalid access to singleton
 	}
 	
-	public void run()
+	public void run(int numCores)
 	{
-		int numCores = Runtime.getRuntime().availableProcessors();
 		ExecutorService ex = Executors.newFixedThreadPool(numCores);
 		
 		/*ArrayList<double[]> minDiv = new ArrayList<double[]>();
