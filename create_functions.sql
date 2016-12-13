@@ -1,5 +1,6 @@
 delimiter //
 
+select 'add_observation' as '';
 DROP PROCEDURE IF EXISTS gamedata.add_observation//
 CREATE PROCEDURE gamedata.add_observation(
 	IN i_profile integer,
@@ -16,6 +17,7 @@ BEGIN
 END//
 
 
+select 'add_profile' as '';
 DROP FUNCTION IF EXISTS gamedata.add_profile//
 CREATE FUNCTION gamedata.add_profile(
 	i_assignment varchar(500),
@@ -39,6 +41,8 @@ BEGIN
 END//
 
 
+
+select 'add_o_agent_profile' as '';
 DROP FUNCTION IF EXISTS gamedata.add_o_agent_profile//
 CREATE FUNCTION gamedata.add_o_agent_profile(
 	i_o_agents_profile_id integer,
@@ -63,6 +67,7 @@ BEGIN
 END//
 
 
+select 'add_strategy' as '';
 DROP FUNCTION IF EXISTS gamedata.add_strategy//
 CREATE FUNCTION gamedata.add_strategy(
 	i_profile_encoding integer) RETURNS integer
@@ -74,7 +79,7 @@ BEGIN
 				where profile_encoding = i_profile_encoding);
 
 	IF l_id is null then
-		insert into strategies (profile_encoding values (i_profile_encoding);
+		insert into strategies (profile_encoding) values (i_profile_encoding);
 		
 		select LAST_INSERT_ID() into l_id;
 	end if;
@@ -83,6 +88,7 @@ BEGIN
 END//
 
 
+select 'get_o_agent_profile_id' as '';
 DROP FUNCTION IF EXISTS gamedata.get_o_agent_profile_id//
 CREATE FUNCTION gamedata.get_o_agent_profile_id(
 	i_profile_encoding_1 integer,
