@@ -5,6 +5,7 @@ DROP PROCEDURE IF EXISTS add_strategy;
 
 delimiter //
 
+
 CREATE PROCEDURE gamedata.add_observation(
 	IN i_profile integer,
 	IN i_strategy integer,
@@ -12,125 +13,130 @@ CREATE PROCEDURE gamedata.add_observation(
 	IN i_num_players integer,
 	IN i_payoff double)
 BEGIN
-	insert into symmetric_aggs (profile_id, strategy_id, o_agents_profile_id, num_players, payoff)
-	values (i_profile, i_strategy, i_o_agents_profile, i_num_players, i_payoff);
+	insert into symmetric_aggs 
+		(profile_id, strategy_id, o_agents_profile_id, num_players, payoff)
+	values 
+		(i_profile, i_strategy, i_o_agents_profile, i_num_players, i_payoff);
 
 END//
 
+
+
 CREATE FUNCTION gamedata.add_profile(
-	i_assignment varchar(255),
+	i_assignment varchar(500),
 	i_num_strategies integer) RETURNS integer
 BEGIN
-	DECLARE l_id int;
+	DECLARE l_id integer default null;
 	
-	insert into profiles (assignment, num_strategies)
-	VALUES (i_assignment, i_num_strategies);
-	
-	select LAST_INSERT_ID() into l_id;
+	set l_id := (select i_profile_id
+				from profiles
+				where assignment = i_assignment
+				and   num_strategies = i_num_strategies);
+
+	if l_id is null then
+		insert into profiles (assignment, num_strategies)
+		VALUES (i_assignment, i_num_strategies);
+		
+		select LAST_INSERT_ID() into l_id;
+	end if;
+
 	return l_id;
 END//
 
-CREATE PROCEDURE gamedata.add_o_agent_profile(
+
+
+CREATE FUNCTION gamedata.add_o_agent_profile(
 	IN i_o_agents_profile_id integer,
-	IN i_evasiveSpeedChange double,
-	IN i_evasiveAngleChange double,
-	IN i_evasiveRelativeTimeThresh double,
-	IN i_desiredSpeed double,
-	IN i_accelerationTime double,
-	IN i_privateSphere double,
-	IN i_visualRange double,
-	IN i_fieldOfView double,
-	IN i_repulsiveStrengthCoefA double,
-	IN i_repulsiveStrengthCoefB double,
-	IN i_crosswalkPullStrengthCoefA double,
-	IN i_crosswalkPullStrengthCoefB double,
-	IN i_crosswalkPushStrengthCoefA double,
-	IN i_crosswalkPushStrengthCoefB double)
+	IN i_profile_encoding integer) RETURNS integer
 BEGIN
+	DECLARE l_id integer default null;
+
 	insert into o_agents_profile (
 		o_agents_profile_id,
-		evasiveSpeedChange,
-		evasiveAngleChange,
-		evasiveRelativeTimeThresh,
-		desiredSpeed,
-		accelerationTime,
-		privateSphere,
-		visualRange,
-		fieldOfView,
-		repulsiveStrengthCoefA,
-		repulsiveStrengthCoefB,
-		crosswalkPullStrengthCoefA,
-		crosswalkPullStrengthCoefB,
-		crosswalkPushStrengthCoefA,
-		crosswalkPushStrengthCoefB)
+		profile_encoding)
 	values (
 		i_o_agents_profile_id,
-		i_evasiveSpeedChange,
-		i_evasiveAngleChange,
-		i_evasiveRelativeTimeThresh,
-		i_desiredSpeed,
-		i_accelerationTime,
-		i_privateSphere,
-		i_visualRange,
-		i_fieldOfView,
-		i_repulsiveStrengthCoefA,
-		i_repulsiveStrengthCoefB,
-		i_crosswalkPullStrengthCoefA,
-		i_crosswalkPullStrengthCoefB,
-		i_crosswalkPushStrengthCoefA,
-		i_crosswalkPushStrengthCoefB);
+		i_profile_encoding);
+
+	if o_agents_profile_id is null then
+		select LAST_INSERT_ID() into l_id;
+	else
+		set l_id := o_agents_profile_id;
+	end if;
+
+	return l_id;
 END//
 
+
+
 CREATE FUNCTION gamedata.add_strategy(
-	i_evasiveSpeedChange double,
-	i_evasiveAngleChange double,
-	i_evasiveRelativeTimeThresh double,
-	i_desiredSpeed double,
-	i_accelerationTime double,
-	i_privateSphere double,
-	i_visualRange double,
-	i_fieldOfView double,
-	i_repulsiveStrengthCoefA double,
-	i_repulsiveStrengthCoefB double,
-	i_crosswalkPullStrengthCoefA double,
-	i_crosswalkPullStrengthCoefB double,
-	i_crosswalkPushStrengthCoefA double,
-	i_crosswalkPushStrengthCoefB double) RETURNS integer
+	IN i_profile_encoding integer) RETURNS integer
 BEGIN
-	DECLARE l_id integer;
+	DECLARE l_id integer default null;
 	
-	insert into strategies (
-		evasiveSpeedChange,
-		evasiveAngleChange,
-		evasiveRelativeTimeThresh,
-		desiredSpeed,
-		accelerationTime,
-		privateSphere,
-		visualRange,
-		fieldOfView,
-		repulsiveStrengthCoefA,
-		repulsiveStrengthCoefB,
-		crosswalkPullStrengthCoefA,
-		crosswalkPullStrengthCoefB,
-		crosswalkPushStrengthCoefA,
-		crosswalkPushStrengthCoefB)
-	values (
-		i_evasiveSpeedChange,
-		i_evasiveAngleChange,
-		i_evasiveRelativeTimeThresh,
-		i_desiredSpeed,
-		i_accelerationTime,
-		i_privateSphere,
-		i_visualRange,
-		i_fieldOfView,
-		i_repulsiveStrengthCoefA,
-		i_repulsiveStrengthCoefB,
-		i_crosswalkPullStrengthCoefA,
-		i_crosswalkPullStrengthCoefB,
-		i_crosswalkPushStrengthCoefA,
-		i_crosswalkPushStrengthCoefB);
-	
-	select LAST_INSERT_ID() into l_id;
+	set l_id := (select strategy_id
+				from strategies
+				where profile_encoding = i_profile_encoding);
+
+	IF l_id is null then
+		insert into strategies (profile_encoding values (i_profile_encoding);
+		
+		select LAST_INSERT_ID() into l_id;
+	end if;
+
+	return l_id;
+END//
+
+CREATE FUNCTION gamedata.get_o_agent_profile_id(
+	IN i_profile_encoding_1 integer,
+	IN i_profile_encoding_2 integer,
+	IN i_profile_encoding_3 integer,
+	IN i_profile_encoding_4 integer) RETURNS integer
+BEGIN
+	DECLARE l_id integer default null;
+
+	IF i_profile_encoding_2 is null then
+		set l_id := 
+		(select oap.o_agents_profile_id
+		from o_agents_profile oap
+		group by oap.o_agents_profile_id
+		having sum(oap.profile_encoding = i_profile_encoding_1) > 0
+		and    sum(oap.profile_encoding not in (i_profile_encoding_1)) = 0);
+	elseif i_profile_encoding_3 is null then 
+		set l_id := 
+		(select oap.o_agents_profile_id
+		from o_agents_profile oap
+		group by oap.o_agents_profile_id
+		having sum(oap.profile_encoding = i_profile_encoding_1) > 0
+		and    sum(oap.profile_encoding = i_profile_encoding_2) > 0
+		and    sum(oap.profile_encoding not in ( i_profile_encoding_1,
+												 i_profile_encoding_2)) = 0);
+	elseif i_profile_encoding_4 is null then
+		set l_id := 
+		(select oap.o_agents_profile_id
+		from o_agents_profile oap
+		group by oap.o_agents_profile_id
+		having sum(oap.profile_encoding = i_profile_encoding_1) > 0
+		and    sum(oap.profile_encoding = i_profile_encoding_2) > 0
+		and    sum(oap.profile_encoding = i_profile_encoding_3) > 0
+		and    sum(oap.profile_encoding not in ( i_profile_encoding_1,
+												 i_profile_encoding_2,
+												 i_profile_encoding_3)) = 0);
+	else
+		set l_id := 
+		(select oap.o_agents_profile_id
+		from o_agents_profile oap
+		group by oap.o_agents_profile_id
+		having sum(oap.profile_encoding = i_profile_encoding_1) > 0
+		and    sum(oap.profile_encoding = i_profile_encoding_2) > 0
+		and    sum(oap.profile_encoding = i_profile_encoding_3) > 0
+		and    sum(oap.profile_encoding = i_profile_encoding_4) > 0
+		and    sum(oap.profile_encoding not in ( i_profile_encoding_1,
+												 i_profile_encoding_2,
+												 i_profile_encoding_3,
+												 i_profile_encoding_4)) = 0);
+	end if;
+
 	return l_id;
 END//
 

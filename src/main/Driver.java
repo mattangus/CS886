@@ -24,6 +24,6 @@ public class Driver {
 			numCores = Integer.parseInt(args[0]);
 		
 		MultiSim sim = new MultiSim();
-		sim.run(numCores);
+		sim.run(1);
 	}
 }

@@ -6,7 +6,7 @@ drop table if exists profiles;
 create table profiles
 (
 	profile_id integer not null AUTO_INCREMENT,
-	assignment varchar(255),
+	assignment varchar(500),
 	num_strategies integer not null,
 	PRIMARY KEY (profile_id)
 );
@@ -14,41 +14,15 @@ create table profiles
 create table strategies
 (
 	strategy_id integer NOT NULL AUTO_INCREMENT,
-	evasiveSpeedChange double,
-	evasiveAngleChange double,
-	evasiveRelativeTimeThresh double,
-	desiredSpeed double,
-	accelerationTime double,
-	privateSphere double,
-	visualRange double,
-	fieldOfView double,
-	repulsiveStrengthCoefA double,
-	repulsiveStrengthCoefB double,
-	crosswalkPullStrengthCoefA double,
-	crosswalkPullStrengthCoefB double,
-	crosswalkPushStrengthCoefA double,
-	crosswalkPushStrengthCoefB double,
+	profile_encoding integer not null,
 	PRIMARY KEY (strategy_id)
 );
 
 create table o_agents_profile
 (
-	o_agents_profile_id integer NOT NULL,
-	evasiveSpeedChange double NOT NULL,
-	evasiveAngleChange double NOT NULL,
-	evasiveRelativeTimeThresh double NOT NULL,
-	desiredSpeed double NOT NULL,
-	accelerationTime double NOT NULL,
-	privateSphere double NOT NULL,
-	visualRange double NOT NULL,
-	fieldOfView double NOT NULL,
-	repulsiveStrengthCoefA double NOT NULL,
-	repulsiveStrengthCoefB double NOT NULL,
-	crosswalkPullStrengthCoefA double NOT NULL,
-	crosswalkPullStrengthCoefB double NOT NULL,
-	crosswalkPushStrengthCoefA double NOT NULL,
-	crosswalkPushStrengthCoefB double NOT NULL,
-	PRIMARY KEY (o_agents_profile_id,evasiveSpeedChange,evasiveAngleChange,evasiveRelativeTimeThresh,desiredSpeed,accelerationTime,privateSphere,visualRange,fieldOfView,repulsiveStrengthCoefA,repulsiveStrengthCoefB,crosswalkPullStrengthCoefA,crosswalkPullStrengthCoefB,crosswalkPushStrengthCoefA,crosswalkPushStrengthCoefB)
+	o_agents_profile_id integer NOT NULL AUTO_INCREMENT,
+	profile_encoding integer not null,
+	PRIMARY KEY (o_agents_profile_id,profile_encoding)
 );
 
 create table symmetric_aggs

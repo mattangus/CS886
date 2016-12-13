@@ -9,6 +9,11 @@ public class Trajectory {
 		this.points = points;
 	}
 	
+	public Trajectory()
+	{
+		points = new ArrayList<TimePoint2d>();
+	}
+
 	public void add(TimePoint2d p)
 	{
 		points.add(p);

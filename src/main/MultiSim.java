@@ -56,13 +56,13 @@ public class MultiSim {
 		{
 			BaseMap map = new BaseMap("map.xml");
 			map.init();
-			//try {
-				ex.submit(new EngineRunner(null/*Database.getInstance().getConnection()*/, clusters, map));
-			//} catch (SQLException e) {
-			//	e.printStackTrace();
-			//} catch (PropertyVetoException e) {
-			//	e.printStackTrace();
-			//}
+			try {
+				ex.submit(new EngineRunner(new CustomConnection(Database.getInstance().getConnection()), clusters, map, 0.1));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (PropertyVetoException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		//long clockStart = System.currentTimeMillis();
@@ -74,7 +74,7 @@ public class MultiSim {
 		
 		long end = System.nanoTime();
 		
-		System.out.println("cores: " + numCores + ", time: " + (double)(end-start)*1e-9 + " time per sim " + ((double)(end-start)*1e-9)/(numCores*((double)EngineRunner.maxLoop/10)));
+		System.out.println("cores: " + numCores + ", time: " + (double)(end-start)*1e-9 + " time per sim " + ((double)(end-start)*1e-9)/(numCores*((double)EngineRunner.maxLoop)));
 	}
 	
 }
