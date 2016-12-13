@@ -127,7 +127,7 @@ public class EngineRunner implements Runnable {
 				}
 				while(oAgentsProfiles.size() < profile.length)
 					oAgentsProfiles.add(null);
-				Integer oAgentProfileId = con.getOAgentProfileId((Integer[]) oAgentsProfiles.toArray());
+				Integer oAgentProfileId = con.getOAgentProfileId(oAgentsProfiles.toArray(new Integer[0]));
 				if(oAgentProfileId == null)
 				{
 					for(int j = 0; j < oAgentsProfiles.size(); j++)

@@ -35,9 +35,9 @@ public class CustomConnection {
 		for(int i = 0; i < list.length; i++)
 		{
 			if(list[i]!=null)
-				cs.setInt(i+1, list[i]);
+				cs.setInt(i+2, list[i]);
 			else
-				cs.setNull(i+1, Types.INTEGER);
+				cs.setNull(i+2, Types.INTEGER);
 		}
 		cs.execute();
 		Integer ret = cs.getInt(1);

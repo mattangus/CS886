@@ -50,16 +50,21 @@ CREATE FUNCTION gamedata.add_o_agent_profile(
 BEGIN
 	DECLARE l_id integer default null;
 
-	insert into o_agents_profile (
-		o_agents_profile_id,
-		profile_encoding)
-	values (
-		i_o_agents_profile_id,
-		i_profile_encoding);
-
 	if o_agents_profile_id is null then
+		insert into o_agents_profile 
+			(profile_encoding)
+		values
+			(i_profile_encoding);
+
 		select LAST_INSERT_ID() into l_id;
 	else
+		insert into o_agents_profile (
+			o_agents_profile_id,
+			profile_encoding)
+		values (
+			i_o_agents_profile_id,
+			i_profile_encoding);
+
 		set l_id := o_agents_profile_id;
 	end if;
 
