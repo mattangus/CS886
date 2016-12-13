@@ -41,8 +41,8 @@ END//
 
 DROP FUNCTION IF EXISTS gamedata.add_o_agent_profile//
 CREATE FUNCTION gamedata.add_o_agent_profile(
-	IN i_o_agents_profile_id integer,
-	IN i_profile_encoding integer) RETURNS integer
+	i_o_agents_profile_id integer,
+	i_profile_encoding integer) RETURNS integer
 BEGIN
 	DECLARE l_id integer default null;
 
@@ -65,7 +65,7 @@ END//
 
 DROP FUNCTION IF EXISTS gamedata.add_strategy//
 CREATE FUNCTION gamedata.add_strategy(
-	IN i_profile_encoding integer) RETURNS integer
+	i_profile_encoding integer) RETURNS integer
 BEGIN
 	DECLARE l_id integer default null;
 	
@@ -85,10 +85,10 @@ END//
 
 DROP FUNCTION IF EXISTS gamedata.get_o_agent_profile_id//
 CREATE FUNCTION gamedata.get_o_agent_profile_id(
-	IN i_profile_encoding_1 integer,
-	IN i_profile_encoding_2 integer,
-	IN i_profile_encoding_3 integer,
-	IN i_profile_encoding_4 integer) RETURNS integer
+	i_profile_encoding_1 integer,
+	i_profile_encoding_2 integer,
+	i_profile_encoding_3 integer,
+	i_profile_encoding_4 integer) RETURNS integer
 BEGIN
 	DECLARE l_id integer default null;
 
