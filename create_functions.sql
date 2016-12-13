@@ -1,11 +1,6 @@
-DROP PROCEDURE IF EXISTS add_observation;
-DROP PROCEDURE IF EXISTS add_profile;
-DROP PROCEDURE IF EXISTS add_o_agent_profile;
-DROP PROCEDURE IF EXISTS add_strategy;
-
 delimiter //
 
-
+DROP PROCEDURE IF EXISTS gamedata.add_observation//
 CREATE PROCEDURE gamedata.add_observation(
 	IN i_profile integer,
 	IN i_strategy integer,
@@ -21,7 +16,7 @@ BEGIN
 END//
 
 
-
+DROP FUNCTION IF EXISTS gamedata.add_profile//
 CREATE FUNCTION gamedata.add_profile(
 	i_assignment varchar(500),
 	i_num_strategies integer) RETURNS integer
@@ -44,7 +39,7 @@ BEGIN
 END//
 
 
-
+DROP FUNCTION IF EXISTS gamedata.add_o_agent_profile//
 CREATE FUNCTION gamedata.add_o_agent_profile(
 	IN i_o_agents_profile_id integer,
 	IN i_profile_encoding integer) RETURNS integer
@@ -68,7 +63,7 @@ BEGIN
 END//
 
 
-
+DROP FUNCTION IF EXISTS gamedata.add_strategy//
 CREATE FUNCTION gamedata.add_strategy(
 	IN i_profile_encoding integer) RETURNS integer
 BEGIN
@@ -87,6 +82,8 @@ BEGIN
 	return l_id;
 END//
 
+
+DROP FUNCTION IF EXISTS gamedata.get_o_agent_profile_id//
 CREATE FUNCTION gamedata.get_o_agent_profile_id(
 	IN i_profile_encoding_1 integer,
 	IN i_profile_encoding_2 integer,
