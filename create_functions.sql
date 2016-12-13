@@ -65,7 +65,7 @@ BEGIN
 			i_o_agents_profile_id,
 			i_profile_encoding);
 
-		set l_id := o_agents_profile_id;
+		set l_id := i_o_agents_profile_id;
 	end if;
 
 	return l_id;
