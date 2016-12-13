@@ -80,8 +80,8 @@ public class CustomConnection {
 		
 		CallableStatement cs = con.prepareCall("{? = call gamedata.add_profile(?,?)}");
 		cs.registerOutParameter(1, Types.INTEGER);
-		cs.setString(1, strAssignment);
-		cs.setInt(2, numStrat);
+		cs.setString(2, strAssignment);
+		cs.setInt(3, numStrat);
 		cs.execute();
 		return cs.getInt(1);
 	}

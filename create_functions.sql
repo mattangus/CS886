@@ -25,7 +25,7 @@ CREATE FUNCTION gamedata.add_profile(
 BEGIN
 	DECLARE l_id integer default null;
 	
-	set l_id := (select i_profile_id
+	set l_id := (select profile_id
 				from profiles
 				where assignment = i_assignment
 				and   num_strategies = i_num_strategies);

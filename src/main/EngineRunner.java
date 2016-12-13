@@ -88,7 +88,9 @@ public class EngineRunner implements Runnable {
 				totalPayoff.add(payoffs);
 			}
 			totalPayoff.div(numTrial);
+			System.out.println("updating db");
 			updateDB(profiles,totalPayoff);
+			System.out.println("done updating");
 		}
 		System.out.println("Thread " + Thread.currentThread().getId() + " donezo");
 	}
