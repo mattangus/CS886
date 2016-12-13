@@ -27,6 +27,7 @@ public class EngineRunner implements Runnable {
 	double max;
 	List<PartialBehaviour> clusters;
 	BaseMap map;
+	public static final int maxLoop = 1000;
 	
 	public EngineRunner(Connection con, List<PartialBehaviour> clusters, BaseMap map)
 	{
@@ -54,7 +55,7 @@ public class EngineRunner implements Runnable {
 	{
 		System.out.println("Thread " + Thread.currentThread().getId() + " powering up");
 		//for(MultiBaseNum i = new MultiBaseNum(min); i.compareTo(max) < 0; i.inc())
-		for(int i = 0; i < 10; i++)
+		for(int i = 0; i < maxLoop; i++)
 		{
 			ArrayList<Agent> agentList = new ArrayList<Agent>();
 			for(int j = 0; j < Consts.numPlayers; j++)

@@ -74,7 +74,7 @@ public class MultiSim {
 		
 		long end = System.nanoTime();
 		
-		System.out.println("cores: " + numCores + ", time: " + (double)(end-start)*1e-9 + " time per sim " + ((double)(end-start)*1e-9)/(numCores));
+		System.out.println("cores: " + numCores + ", time: " + (double)(end-start)*1e-9 + " time per sim " + ((double)(end-start)*1e-9)/(numCores*((double)EngineRunner.maxLoop/10)));
 	}
 	
 }
