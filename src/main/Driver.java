@@ -20,12 +20,15 @@ public class Driver {
 		
 		Database.close();*/
 		
-		int numCores = Runtime.getRuntime().availableProcessors();
+		/*int numCores = Runtime.getRuntime().availableProcessors()*2;
 		if(args.length != 0)
 			numCores = Integer.parseInt(args[0]);
 		
 		MultiSim sim = new MultiSim();
 		sim.run(numCores);
-		Database.close();
+		Database.close();*/
+		
+		ClusterCalculator cc = new ClusterCalculator(new TrackParser("tracks.txt").parse(),5);
+		cc.computeStats();
 	}
 }

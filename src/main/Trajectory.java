@@ -42,4 +42,9 @@ public class Trajectory {
 		}
 		return DTW[n-1][m-1];
 	}
+	
+	public String toString()
+	{
+		return points.toString();
+	}
 }

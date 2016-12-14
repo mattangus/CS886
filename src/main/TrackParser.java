@@ -13,6 +13,7 @@ public class TrackParser {
 	
 	String filename;
 	private double timeStep = 0.1;
+	private double units = 0.0247; //convert to m
 	
 	public TrackParser(String file)
 	{
@@ -60,11 +61,26 @@ public class TrackParser {
 			if(first)
 			{
 				first = false;
-				start = new TimePoint2d(Integer.parseInt(strPoint[0]),Integer.parseInt(strPoint[1]),Integer.parseInt(strPoint[2]));
+				start = new TimePoint2d(Integer.parseInt(strPoint[0])*units,Integer.parseInt(strPoint[1])*units,Integer.parseInt(strPoint[2])*timeStep);
+				t.add(new TimePoint2d(0,0,0));
 			}
-			TimePoint2d p = new TimePoint2d(Integer.parseInt(strPoint[0]),Integer.parseInt(strPoint[1]),Integer.parseInt(strPoint[2]));
-			p = p.sub(start);//normalize
-			t.add(p);
+			else
+			{
+				TimePoint2d p = new TimePoint2d(Integer.parseInt(strPoint[0])*units,Integer.parseInt(strPoint[1])*units,Integer.parseInt(strPoint[2])*timeStep);
+				p = p.sub(start);//normalize
+				TimePoint2d last; //linearly interpolate if gaps
+				while(p.t - (last = t.points.get(t.points.size()-1)).t - 0.1 > 0.00001) //epsilon thresh for error
+				{
+					double dt = p.t - last.t;
+					double newT = last.t + timeStep;
+					double newX = (last.x*(newT - last.t) + p.x*(p.t - newT))/dt;
+					double newY = (last.y*(newT - last.t) + p.y*(p.t - newT))/dt;
+					t.add(new TimePoint2d(newX,newY,newT));
+				}
+				
+				if(p.t - (last = t.points.get(t.points.size()-1)).t < 0.00001) //avoid identical points in time
+					t.add(p);
+			}
 		}
 		return t;
 	}
