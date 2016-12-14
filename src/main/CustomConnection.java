@@ -59,10 +59,10 @@ public class CustomConnection {
 	{
 		CallableStatement cs = con.prepareCall("{call gamedata.add_observation(?,?,?,?,?)}");
 		cs.setInt(1, profileId);
-		cs.setInt(1, strategyId);
-		cs.setInt(1, oAgentProfileId);
-		cs.setInt(1, numPlayers);
-		cs.setDouble(1, payoff);
+		cs.setInt(2, strategyId);
+		cs.setInt(3, oAgentProfileId);
+		cs.setInt(4, numPlayers);
+		cs.setDouble(5, payoff);
 		cs.execute();
 	}
 	

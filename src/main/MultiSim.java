@@ -51,22 +51,22 @@ public class MultiSim {
 		pb.desiredSpeed = PedestrianConst.desiredSpeed.nextDouble(0.001,200.0);
 		clusters.add(pb);
 		
+		TrackParser tp = new TrackParser("tracks.txt");
+		PayoffCalculator pc = new PayoffCalculator(tp.parse());
+		
 		long start = System.nanoTime();
 		for(int i = 0; i < numCores; i++)
 		{
 			BaseMap map = new BaseMap("map.xml");
 			map.init();
 			try {
-				ex.submit(new EngineRunner(new CustomConnection(Database.getInstance().getConnection()), clusters, map, 0.1));
+				ex.submit(new EngineRunner(new CustomConnection(Database.getInstance().getConnection()), clusters, map, 0.1, pc));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (PropertyVetoException e) {
 				e.printStackTrace();
 			}
 		}
-		
-		//long clockStart = System.currentTimeMillis();
-		//while(clockStart + 20000 > System.currentTimeMillis());
 		
 		ex.shutdown();
 		

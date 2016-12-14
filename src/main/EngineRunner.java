@@ -26,11 +26,11 @@ public class EngineRunner implements Runnable {
 	double max;
 	List<PartialBehaviour> clusters;
 	BaseMap map;
-	public static final int maxLoop = 10;
+	public static final int maxLoop = 5;
 	PayoffCalculator payoffCalc;
 	double timeStep;
 	
-	public EngineRunner(CustomConnection con, List<PartialBehaviour> clusters, BaseMap map, double timeStep)
+	public EngineRunner(CustomConnection con, List<PartialBehaviour> clusters, BaseMap map, double timeStep, PayoffCalculator payoffCalc)
 	{
 		this.con = con;
 		this.map = map;
@@ -42,7 +42,7 @@ public class EngineRunner implements Runnable {
 		this.timeStep = timeStep;
 		int k = clusters.size();
 		current = new MultiBaseNum(new int[] {k,desired,desired,desired,desired,desired,desired});
-		payoffCalc = new PayoffCalculator();
+		this.payoffCalc = payoffCalc;
 	}
 	
 	@Override

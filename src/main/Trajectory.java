@@ -36,10 +36,10 @@ public class Trajectory {
 		{
 			for(int j = 1; j < m; j++)
 			{
-				double cost = points.get(i).dist(other.points.get(i));
+				double cost = points.get(i).dist(other.points.get(j));
 				DTW[i][j] = cost + Math.min(DTW[i-1][j], Math.min(DTW[i][j-1], DTW[i-1][j-1]));
 			}
 		}
-		return DTW[n][m];
+		return DTW[n-1][m-1];
 	}
 }

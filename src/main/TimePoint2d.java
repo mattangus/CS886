@@ -19,4 +19,18 @@ public class TimePoint2d {
 		
 		return Math.sqrt(dx*dx + dy*dy + dt*dt);
 	}
+	
+	public TimePoint2d sub(TimePoint2d other)
+	{
+		return new TimePoint2d(x-other.x,y-other.y,t-other.t);
+	}
+	
+	public TimePoint2d add(TimePoint2d other)
+	{
+		return new TimePoint2d(x+other.x,y+other.y,t-other.t);
+	}
+
+	public TimePoint2d mul(double d) {
+		return new TimePoint2d(x*d,y*d,t*d);
+	}
 }

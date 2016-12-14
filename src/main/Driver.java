@@ -3,6 +3,7 @@ import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -24,6 +25,7 @@ public class Driver {
 			numCores = Integer.parseInt(args[0]);
 		
 		MultiSim sim = new MultiSim();
-		sim.run(1);
+		sim.run(numCores);
+		Database.close();
 	}
 }
