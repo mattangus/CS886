@@ -26,7 +26,7 @@ public class EngineRunner implements Runnable {
 	double max;
 	List<PartialBehaviour> clusters;
 	BaseMap map;
-	public static final int maxLoop = 5;
+	public static final int maxLoop = 10000;
 	PayoffCalculator payoffCalc;
 	double timeStep;
 	
