@@ -20,7 +20,7 @@ public class Driver {
 		
 		Database.close();*/
 		
-		int numCores = Runtime.getRuntime().availableProcessors();
+		int numCores = Runtime.getRuntime().availableProcessors()*2;
 		if(args.length != 0)
 			numCores = Integer.parseInt(args[0]);
 		
