@@ -17,17 +17,12 @@
         <pathelement location="${sfmsim.location}/main/libs/commons-cli-1.3.1-javadoc.jar"/>
         <pathelement location="${sfmsim.location}/main/libs/commons-cli-1.3.1.jar"/>
     </path>
-    <path id="JUnit 4.libraryclasspath">
-        <pathelement location="../../../../../../../Program Files/Eclipse Mars/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
-        <pathelement location="../../../../../../../Program Files/Eclipse Mars/plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
-    </path>
     <path id="CS886.classpath">
         <pathelement location="bin"/>
         <path refid="sfmsim.classpath"/>
         <pathelement location="mysql-connector-java-5.1.40/mysql-connector-java-5.1.40-bin.jar"/>
         <pathelement location="c3p0-0.9.5.2/c3p0-0.9.5.2.jar"/>
         <pathelement location="c3p0-0.9.5.2/mchange-commons-java-0.2.11.jar"/>
-        <path refid="JUnit 4.libraryclasspath"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
