@@ -82,6 +82,7 @@ public class ClusterCalculator {
 					groups[assignment[i]][j].add(points[i][j]);
 			}
 		}
+		boolean code = false;
 		
 		for(int i = 0; i < k; i++)
 		{
@@ -91,21 +92,35 @@ public class ClusterCalculator {
 			pb.accelerationTime = PedestrianConst.accelerationTime.nextDouble(0.001,2.0);
 			pb.desiredSpeed = PedestrianConst.desiredSpeed.nextDouble(0.001,200.0);
 			clusters.add(pb);*/
-			System.out.println("//Cluster " + i);
-			System.out.println("PartialBehaviour pb" + i + " = new PartialBehaviour();");
-			System.out.println("pb" + i + ".desiredSpeed = " + centroids[i][0] + ";");
-			System.out.println("pb" + i + ".accelerationTime = " + centroids[i][1] + ";");
-			System.out.println("pb" + i + ".evasiveAngleChange = new NormalDistribution(" + centroids[i][3] + "," + getSD(groups[i][3],centroids[i][3]) + ");");
-			System.out.println("pb" + i + ".evasiveSpeedChange = new NormalDistribution(" + centroids[i][2] + "," + getSD(groups[i][2],centroids[i][2]) + ");");
-			/*System.out.println("avgSpeed: " + centroids[i][0] + " +- " + getSD(groups[i][0],centroids[i][0]));
-			System.out.println("relTime: " + centroids[i][1] + " +- " + getSD(groups[i][1],centroids[i][1]));
-			System.out.println("velChange: " + centroids[i][2] + " +- " + getSD(groups[i][2],centroids[i][2]));
-			System.out.println("dirChange: " + centroids[i][3] + " +- " + getSD(groups[i][3],centroids[i][3]));
-			*/
-			System.out.println("clusters.add(pb" + i + ");");
-			System.out.println("//-----------------------//");
+			
+			if(code)
+			{
+				System.out.println("//Cluster " + i + " (" + groups[i][0].size() + ")");
+				System.out.println("PartialBehaviour pb" + i + " = new PartialBehaviour();");
+				System.out.println("pb" + i + ".desiredSpeed = " + centroids[i][0] + ";");
+				System.out.println("pb" + i + ".accelerationTime = " + centroids[i][1] + ";");
+				System.out.println("pb" + i + ".evasiveAngleChange = new NormalDistribution(" + centroids[i][3] + "," + getSD(groups[i][3],centroids[i][3]) + ");");
+				System.out.println("pb" + i + ".evasiveSpeedChange = new NormalDistribution(" + centroids[i][2] + "," + getSD(groups[i][2],centroids[i][2]) + ");");
+				System.out.println("clusters.add(pb" + i + ");");
+				System.out.println("//-----------------------//");
+			}
+			else
+			{
+				System.out.print(round(centroids[i][0],3) + " (" + round(getSD(groups[i][0],centroids[i][0]),3) + ")\t");
+				System.out.print(round(centroids[i][1],3) + " (" + round(getSD(groups[i][1],centroids[i][1]),3) + ")\t");
+				System.out.print(round(centroids[i][2],3) + " (" + round(getSD(groups[i][2],centroids[i][2]),3) + ")\t");
+				System.out.print(round(centroids[i][3],3) + " (" + round(getSD(groups[i][3],centroids[i][3]),3) + ")\t");
+				System.out.print(groups[i][0].size());
+				System.out.println();
+			}
+			
 		}
 		
+	}
+	
+	private double round(double val, int numDec)
+	{
+		return (double) Math.round(val * Math.pow(10, numDec)) / Math.pow(10.0, numDec);
 	}
 	
 	private double averageSpeed(Trajectory t)

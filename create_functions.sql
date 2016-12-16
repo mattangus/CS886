@@ -148,4 +148,39 @@ BEGIN
 	return l_id;
 END//
 
+select 'get_deviation_set' as '';
+DROP FUNCTION IF EXISTS gamedata.get_deviation_set//
+CREATE PROCEDURE gamedata.get_deviation_set(
+	IN i_profile_id integer)
+BEGIN
+	SELECT DISTINCT profile_id
+	FROM 
+	(
+		SELECT o_agents_profile_id
+		FROM symmetric_aggs
+		WHERE profile_id = i_profile_id
+	) oa, symmetric_aggs sa
+	where oa.o_agents_profile_id = sa.o_agents_profile_id;
+END//
+
+select 'get_profiles' as '';
+DROP FUNCTION IF EXISTS gamedata.get_profiles//
+CREATE PROCEDURE gamedata.get_profiles(
+	IN i_profile_id integer)
+BEGIN
+	SELECT * from profiles;
+END//
+
+select 'get_random_profile' as '';
+DROP FUNCTION IF EXISTS gamedata.get_random_profile//
+CREATE PROCEDURE gamedata.get_random_profile()
+BEGIN
+	SELECT A.* FROM (
+		SELECT * FROM profiles 
+		ORDER BY profile_id DESC, RAND()
+	) as A
+	ORDER BY RAND()
+	limit 1;
+END//
+
 delimiter ;

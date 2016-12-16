@@ -55,7 +55,7 @@ public class MultiSim {
 			BaseMap map = new BaseMap("map.xml");
 			map.init();
 			try {
-				ex.submit(new EngineRunner(new CustomConnection(Database.getInstance().getConnection()), clusters, map, 0.1, pc));
+				ex.submit(new EngineRunnerBR(new CustomConnection(Database.getInstance().getConnection()), clusters, map, 0.1, pc));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (PropertyVetoException e) {

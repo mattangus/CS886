@@ -80,6 +80,8 @@ WHERE profile_id = 3
 ) oa, symmetric_aggs sa
 where oa.o_agents_profile_id = sa.o_agents_profile_id;
 
+
+
 SELECT MAX(sa.payoff-oa.payoff)
 FROM
 (
@@ -100,9 +102,24 @@ where oa.o_agents_profile_id = sa.o_agents_profile_id;
 
 SELECT sa.profile_id
 FROM best_response_payoffs brp, symmetric_aggs sa, profiles p
-where brp.o_agents_profile_id = sa.o_agents_profile_id
-and brp.payoff = sa.payoff
-and p.profile_id = sa.profile_id
-and strategy_id in (select distinct profile_id from profiles)
-GROUP BY profile_id, num_strategies
-HAVING COUNT(*) = num_strategies;*/
+WHERE brp.o_agents_profile_id = sa.o_agents_profile_id
+AND   brp.payoff = sa.payoff
+AND   p.profile_id = sa.profile_id
+AND   sa.strategy_id IN (:allowed_strats)
+GROUP BY p.profile_id, p.num_strategies
+HAVING COUNT(*) = p.num_strategies;
+
+SELECT sa.profile_id
+FROM best_response_payoffs brp, symmetric_aggs sa, profiles p
+WHERE brp.o_agents_profile_id = sa.o_agents_profile_id
+AND   brp.payoff = sa.payoff
+AND   p.profile_id = sa.profile_id
+AND   sa.strategy_id IN (select distinct strategy_id from strategies)
+GROUP BY p.profile_id, p.num_strategies
+HAVING COUNT(*) = p.num_strategies;
+
+USING ( o_agents_profile_id , payoff )
+INNER JOIN profiles USING ( profile_id )
+WHERE strategy_id = ANY (: allowed_strats )
+GROUP BY profile_id , num_strategies
+HAVING COUNT (*) = num_strategies*/

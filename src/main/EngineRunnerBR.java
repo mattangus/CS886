@@ -17,7 +17,7 @@ import com.sfm.helper.RandomHelper;
 import com.sfm.helper.SimulationSnapshot;
 import com.sfm.states.AgentState;
 
-public class EngineRunner implements Runnable {
+public class EngineRunnerBR implements Runnable {
 	
 	CustomConnection con;
 	MultiBaseNum current;
@@ -30,7 +30,7 @@ public class EngineRunner implements Runnable {
 	PayoffCalculator payoffCalc;
 	double timeStep;
 	
-	public EngineRunner(CustomConnection con, List<PartialBehaviour> clusters, BaseMap map, double timeStep, PayoffCalculator payoffCalc)
+	public EngineRunnerBR(CustomConnection con, List<PartialBehaviour> clusters, BaseMap map, double timeStep, PayoffCalculator payoffCalc)
 	{
 		this.con = con;
 		this.map = map;
@@ -54,43 +54,52 @@ public class EngineRunner implements Runnable {
 		}
 	}
 	
-	private void execute()
+	private void execute() throws SQLException
 	{
 		System.out.println("Thread " + Thread.currentThread().getId() + " powering up");
 		//for(MultiBaseNum i = new MultiBaseNum(min); i.compareTo(max) < 0; i.inc())
 		for(int i = 0; i < maxLoop; i++)
 		{
-			int[] profiles = new int[Consts.numPlayers];
-			for(int j = 0; j < Consts.numPlayers; j++)
+			int[] orig = con.getRandomProfile();
+			int numExplore = 500;
+			for(int p = 0; p < numExplore; p++)
 			{
-				profiles[j] = RandomHelper.nextInt(current.getMax());
-			}
-			int numTrial = 5;
-			PayoffVector totalPayoff = new PayoffVector(Consts.numPlayers);
-			//average over 5
-			for(int k = 0; k < numTrial; k++)
-			{
-				ArrayList<Agent> agentList = new ArrayList<Agent>();
-				for(int j = 0; j < Consts.numPlayers; j++)
+				int[] profiles = new int[orig.length];
+				int toMod = RandomHelper.nextInt(orig.length);
+				for(int q = 0; q < orig.length; q++)
 				{
-					current.set(profiles[j]);
-					PedestrianBehaviour pb = getCurrentBehaviour();
-					Pedestrian ped = PedestrianFactory.generatePedestrian(map);
-					ped.behaviour = pb;
-					agentList.add(ped);
+					if(q != toMod)
+						profiles[q] = orig[q];
+					else
+						profiles[q] = RandomHelper.nextInt(current.getMax()); //assign random to one 
 				}
-				AgentContainer agents = new AgentContainer(agentList);
-				agents.car = new EgoCar(new AgentState(new Vector2d()));
-				SFMEngine engine = new SFMEngine(timeStep, agents, map);
-				engine.run(false);
-				ArrayList<Trajectory> trajectories = toTrajectories(engine.snapshots);
-				PayoffVector payoffs = payoffCalc.getPayoff(trajectories);
-				totalPayoff.add(payoffs);
+				int numTrial = 5;
+				PayoffVector totalPayoff = new PayoffVector(Consts.numPlayers);
+				//average over 10
+				for(int k = 0; k < numTrial; k++)
+				{
+					ArrayList<Agent> agentList = new ArrayList<Agent>();
+					for(int j = 0; j < Consts.numPlayers; j++)
+					{
+						current.set(profiles[j]);
+						PedestrianBehaviour pb = getCurrentBehaviour();
+						Pedestrian ped = PedestrianFactory.generatePedestrian(map);
+						ped.behaviour = pb;
+						agentList.add(ped);
+					}
+					AgentContainer agents = new AgentContainer(agentList);
+					agents.car = new EgoCar(new AgentState(new Vector2d()));
+					SFMEngine engine = new SFMEngine(timeStep, agents, map);
+					engine.run(false);
+					ArrayList<Trajectory> trajectories = toTrajectories(engine.snapshots);
+					PayoffVector payoffs = payoffCalc.getPayoff(trajectories);
+					totalPayoff.add(payoffs);
+				}
+				totalPayoff.div(numTrial);
+				System.out.println("updating db");
+				updateDB(profiles,totalPayoff);
+				System.out.println("done updating");
 			}
-			totalPayoff.div(numTrial);
-			System.out.println("updating db");
-			updateDB(profiles,totalPayoff);
-			System.out.println("done updating");
 		}
 		System.out.println("Thread " + Thread.currentThread().getId() + " donezo");
 	}

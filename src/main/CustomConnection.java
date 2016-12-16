@@ -2,6 +2,7 @@ package main;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
@@ -86,8 +87,18 @@ public class CustomConnection {
 		return cs.getInt(1);
 	}
 	
-	public void addObservation()
+	public int[] getRandomProfile() throws SQLException
 	{
 		
+		CallableStatement cs = con.prepareCall("{call get_random_profile() }",
+			    ResultSet.TYPE_SCROLL_INSENSITIVE,
+			    ResultSet.CONCUR_READ_ONLY);
+		ResultSet rs = cs.executeQuery();
+		rs.next();
+		String[] assignment = rs.getString("assignment").split(",");
+		int[] ret = new int[assignment.length];
+		for(int i = 0; i < assignment.length; i++)
+			ret[i] = Integer.parseInt(assignment[i]);
+		return ret;
 	}
 }
