@@ -71,11 +71,11 @@ public class EngineRunnerBR implements Runnable {
 					if(q != toMod)
 						profiles[q] = orig[q];
 					else
-						profiles[q] = RandomHelper.nextInt(current.getMax()); //assign random to one 
+						profiles[q] = RandomHelper.nextInt(current.getMax()); //assign random to one
 				}
 				int numTrial = 5;
 				PayoffVector totalPayoff = new PayoffVector(Consts.numPlayers);
-				//average over 10
+				//average over 5
 				for(int k = 0; k < numTrial; k++)
 				{
 					ArrayList<Agent> agentList = new ArrayList<Agent>();
