@@ -183,4 +183,23 @@ BEGIN
 	limit 1;
 END//
 
+select 'get_random_nash' as '';
+DROP FUNCTION IF EXISTS gamedata.get_random_nash//
+CREATE PROCEDURE gamedata.get_random_nash()
+BEGIN
+	SELECT A.* FROM (
+		SELECT p.profile_id, p.assignment
+		FROM best_response_payoffs brp, symmetric_aggs sa, profiles p
+		WHERE brp.o_agents_profile_id = sa.o_agents_profile_id
+		AND   brp.payoff = sa.payoff
+		AND   p.profile_id = sa.profile_id
+		AND   sa.strategy_id IN (select distinct strategy_id from strategies)
+		GROUP BY p.profile_id, p.num_strategies
+		HAVING COUNT(*) = p.num_strategies
+		ORDER BY sa.profile_id DESC, RAND()
+	) as A
+	ORDER BY RAND()
+	limit 1;
+END//
+
 delimiter ;

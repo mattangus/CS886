@@ -60,8 +60,8 @@ public class EngineRunnerBR implements Runnable {
 		//for(MultiBaseNum i = new MultiBaseNum(min); i.compareTo(max) < 0; i.inc())
 		for(int i = 0; i < maxLoop; i++)
 		{
-			int[] orig = con.getRandomProfile();
-			int numExplore = 500;
+			int[] orig = con.getRandomNash();
+			int numExplore = 100;
 			for(int p = 0; p < numExplore; p++)
 			{
 				int[] profiles = new int[orig.length];

@@ -101,4 +101,19 @@ public class CustomConnection {
 			ret[i] = Integer.parseInt(assignment[i]);
 		return ret;
 	}
+	
+	public int[] getRandomNash() throws SQLException
+	{
+		
+		CallableStatement cs = con.prepareCall("{call get_random_nash() }",
+			    ResultSet.TYPE_SCROLL_INSENSITIVE,
+			    ResultSet.CONCUR_READ_ONLY);
+		ResultSet rs = cs.executeQuery();
+		rs.next();
+		String[] assignment = rs.getString("assignment").split(",");
+		int[] ret = new int[assignment.length];
+		for(int i = 0; i < assignment.length; i++)
+			ret[i] = Integer.parseInt(assignment[i]);
+		return ret;
+	}
 }
