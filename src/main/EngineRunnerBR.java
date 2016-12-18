@@ -73,7 +73,7 @@ public class EngineRunnerBR implements Runnable {
 					else
 						profiles[q] = RandomHelper.nextInt(current.getMax()); //assign random to one
 				}
-				int numTrial = 5;
+				int numTrial = 1;
 				PayoffVector totalPayoff = new PayoffVector(Consts.numPlayers);
 				//average over 5
 				for(int k = 0; k < numTrial; k++)

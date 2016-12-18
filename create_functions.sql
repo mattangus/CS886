@@ -149,7 +149,7 @@ BEGIN
 END//
 
 select 'get_deviation_set' as '';
-DROP FUNCTION IF EXISTS gamedata.get_deviation_set//
+DROP PROCEDURE IF EXISTS gamedata.get_deviation_set//
 CREATE PROCEDURE gamedata.get_deviation_set(
 	IN i_profile_id integer)
 BEGIN
@@ -164,7 +164,7 @@ BEGIN
 END//
 
 select 'get_profiles' as '';
-DROP FUNCTION IF EXISTS gamedata.get_profiles//
+DROP PROCEDURE IF EXISTS gamedata.get_profiles//
 CREATE PROCEDURE gamedata.get_profiles(
 	IN i_profile_id integer)
 BEGIN
@@ -172,7 +172,7 @@ BEGIN
 END//
 
 select 'get_random_profile' as '';
-DROP FUNCTION IF EXISTS gamedata.get_random_profile//
+DROP PROCEDURE IF EXISTS gamedata.get_random_profile//
 CREATE PROCEDURE gamedata.get_random_profile()
 BEGIN
 	SELECT A.* FROM (
@@ -184,7 +184,7 @@ BEGIN
 END//
 
 select 'get_random_nash' as '';
-DROP FUNCTION IF EXISTS gamedata.get_random_nash//
+DROP PROCEDURE IF EXISTS gamedata.get_random_nash//
 CREATE PROCEDURE gamedata.get_random_nash()
 BEGIN
 	SELECT A.* FROM (
@@ -200,6 +200,36 @@ BEGIN
 	) as A
 	ORDER BY RAND()
 	limit 1;
+END//
+
+select 'get_nash_intersect' as '';
+DROP PROCEDURE IF EXISTS gamedata.get_nash_intersect//
+CREATE PROCEDURE gamedata.get_nash_intersect()
+BEGIN
+	
+	select *
+	from
+	(
+		SELECT sa.profile_id, sa.o_agents_profile_id, sa.strategy_id
+		FROM best_response_payoffs brp, symmetric_aggs sa, profiles p
+		WHERE brp.o_agents_profile_id = sa.o_agents_profile_id
+		AND   brp.payoff = sa.payoff
+		AND   p.profile_id = sa.profile_id
+		AND   sa.strategy_id IN (select distinct strategy_id from strategies)
+		GROUP BY p.profile_id, p.num_strategies
+		HAVING COUNT(*) = p.num_strategies
+	} n1,
+	(
+		SELECT sa.profile_id, sa.o_agents_profile_id, sa.strategy_id
+		FROM best_response_payoffs brp, symmetric_aggs sa, profiles p
+		WHERE brp.o_agents_profile_id = sa.o_agents_profile_id
+		AND   brp.payoff = sa.payoff
+		AND   p.profile_id = sa.profile_id
+		AND   sa.strategy_id IN (select distinct strategy_id from strategies)
+		GROUP BY p.profile_id, p.num_strategies
+		HAVING COUNT(*) = p.num_strategies
+	) n2
+	;
 END//
 
 delimiter ;
