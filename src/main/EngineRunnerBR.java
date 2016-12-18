@@ -64,6 +64,7 @@ public class EngineRunnerBR implements Runnable {
 			int numExplore = 100;
 			for(int p = 0; p < numExplore; p++)
 			{
+				long start = System.currentTimeMillis();
 				int[] profiles = new int[orig.length];
 				int toMod = RandomHelper.nextInt(orig.length);
 				for(int q = 0; q < orig.length; q++)
@@ -99,6 +100,9 @@ public class EngineRunnerBR implements Runnable {
 				System.out.println("updating db");
 				updateDB(profiles,totalPayoff);
 				System.out.println("done updating");
+				long end = System.currentTimeMillis();
+				
+				System.out.println("took " + ((end - start)*0.001));
 			}
 		}
 		System.out.println("Thread " + Thread.currentThread().getId() + " donezo");
