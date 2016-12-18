@@ -35,10 +35,8 @@ public class Driver {
 			numCores = Integer.parseInt(args[0]);
 		
 		MultiSim sim = new MultiSim();
-		sim.run(1);
+		sim.run(numCores);
 		Database.close();
-		
-		
 		
 		/*ClusterCalculator cc = new ClusterCalculator(new TrackParser("tracks.txt").parse(),5);
 		cc.computeStats();
